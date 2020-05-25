@@ -8,7 +8,7 @@ class Interpreter:
 
     @property
     def id(self) -> int:
-        return self._id
+        return int(self._id)
 
     @property
     def isolated(self) -> bool:
@@ -21,7 +21,7 @@ class Interpreter:
         _xxsubinterpreters.destroy(self._id)
 
     def run(self, source_str, /, *, channels=None):
-        _xxsubinterpreters.run_string(self._id, source_str, False)
+        _xxsubinterpreters.run_string(self._id, source_str)
 
 
 def list_all() -> List[Interpreter]:
