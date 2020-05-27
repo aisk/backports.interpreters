@@ -5,10 +5,11 @@ from typing import List
 class Interpreter:
     def __init__(self, id: int):
         self._id = id
+        self._subinterpreter = None
 
     @property
     def id(self) -> int:
-        return int(self._id)
+        return self._id
 
     @property
     def isolated(self) -> bool:
@@ -37,7 +38,10 @@ def get_main() -> Interpreter:
 
 
 def create(*, isolated=True) -> Interpreter:
-    return Interpreter(_xxsubinterpreters.create())
+    subinterp = _xxsubinterpreters.create()
+    interp = Interpreter(int(subinterp))
+    interp._subinterpreter = subinterp  # Add refference to ensure that they have the same lifetime.
+    return interp
 
 
 def is_shareable(obj) -> bool:
