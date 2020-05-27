@@ -1,5 +1,4 @@
 from backports import interpreters
-import _xxsubinterpreters
 
 
 def test_list_all():
@@ -26,7 +25,7 @@ def test_create():
 def test_basic_fields():
     main = interpreters.get_main()
     assert main.id == 0
-    assert main.is_running() == True
+    assert main.is_running() is True
 
     other = interpreters.create()
     assert other.id > 0
