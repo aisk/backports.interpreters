@@ -1,5 +1,7 @@
 # backports.interpreters
 
+![Python package](https://github.com/aisk/backports.interpreters/workflows/Python%20package/badge.svg)
+
 ![](https://steamuserimages-a.akamaihd.net/ugc/884253767814091683/33BD3074E50D3E841C647E8BEE4CF680C35B152D/)
 
 The `interpreters` module described in [PEP554](https://www.python.org/dev/peps/pep-0554/), which is not implemented now. This is backported from the future.
