@@ -40,3 +40,8 @@ def test_destroy():
 def test_run():
     interp = interpreters.create()
     interp.run("print('Hello world!')")
+
+
+def is_shareable():
+    assert is_shareable(1)
+    assert not is_shareable({})

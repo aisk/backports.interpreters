@@ -38,3 +38,7 @@ def get_main() -> Interpreter:
 
 def create(*, isolated=True) -> Interpreter:
     return Interpreter(_xxsubinterpreters.create())
+
+
+def is_shareable(obj) -> bool:
+    return _xxsubinterpreters.is_shareable(obj)
