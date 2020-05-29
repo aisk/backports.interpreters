@@ -1,5 +1,5 @@
 import _xxsubinterpreters
-from typing import List
+from typing import List, Tuple
 
 
 class Interpreter:
@@ -40,9 +40,53 @@ def get_main() -> Interpreter:
 def create(*, isolated=True) -> Interpreter:
     subinterp = _xxsubinterpreters.create()
     interp = Interpreter(int(subinterp))
-    interp._subinterpreter = subinterp  # Add refference to ensure that they have the same lifetime.
+    interp._subinterpreter = (
+        subinterp  # Add refference to ensure that they have the same lifetime.
+    )
     return interp
 
 
 def is_shareable(obj) -> bool:
     return _xxsubinterpreters.is_shareable(obj)
+
+
+class RecvChannel:
+    def __init__(self, id: int):
+        self._channel = None
+        self._id = id
+
+    @property
+    def id(self) -> int:
+        return int(self._id)
+
+    def recv(self):
+        return _xxsubinterpreters.channel_recv(self._id)
+
+
+class SendChannel:
+    def __init__(self, id: int):
+        self._channel = None
+        self._id = id
+
+    @property
+    def id(self) -> int:
+        return int(self._id)
+
+    def send(self, obj):
+        _xxsubinterpreters.channel_send(self._id, obj)
+
+
+def create_channel() -> Tuple[RecvChannel, SendChannel]:
+    c = _xxsubinterpreters.channel_create()
+    recv = RecvChannel(c.recv)
+    recv._channel = c
+    send = SendChannel(c.send)
+    send._channel = c
+    return (recv, send)
+
+
+def list_all_channels() -> List[Tuple[RecvChannel, SendChannel]]:
+    return [
+        (RecvChannel(c.recv), SendChannel(c.send))
+        for c in _xxsubinterpreters.channel_list_all()
+    ]
