@@ -41,9 +41,9 @@ def test_run():
     interp.run("print('Hello world!')")
 
 
-def is_shareable():
-    assert is_shareable(1)
-    assert not is_shareable({})
+def test_is_shareable():
+    assert interpreters.is_shareable(1)
+    assert not interpreters.is_shareable({})
 
 
 def test_create_and_list_channels():
