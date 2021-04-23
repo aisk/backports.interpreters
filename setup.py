@@ -10,4 +10,5 @@ setup(
     py_modules=["backports.interpreters"],
     namespace_packages=["backports"],
     python_requires=">=3.8",
+    extras_require={"dev": ["pytest"]}
 )
