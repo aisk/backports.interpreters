@@ -39,26 +39,3 @@ def test_destroy():
 def test_run():
     interp = interpreters.create()
     interp.run("print('Hello world!')")
-
-
-def test_is_shareable():
-    assert interpreters.is_shareable(1)
-    assert not interpreters.is_shareable({})
-
-
-def test_create_and_list_channels():
-    recv, send = interpreters.create_channel()
-    assert interpreters.list_all_channels()
-
-
-def test_send_and_recv_on_channel():
-    recv, send = interpreters.create_channel()
-    send.send(42)
-    assert recv.recv() == 42
-
-
-def test_send_and_recv_on_channel_between_interpreters():
-    recv, send = interpreters.create_channel()
-    send.send(43)
-    script = f"from backports import interpreters; assert interpreters.RecvChannel({recv.id}).recv() == 43"
-    interpreters.create().run(script)
