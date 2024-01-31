@@ -12,15 +12,36 @@ The `interpreters` module described in [PEP554](https://www.python.org/dev/peps/
 $ pip install backports.interpreters
 ```
 
-## Usage
+## Example
 
 ```sh
 from backports import interpreters
+import threading
 
-interp = interpreters.create()
-interp.run("print('El Psy Congroo.')")
-interp.close()
+
+def task():
+    intp = interpreters.create()
+    intp.run("""
+a = 0
+for i in range(99999999):
+    a += i
+print(a)
+    """)
+
+
+ts = []
+for _ in range(8):
+    t = threading.Thread(target=task)
+    t.start()
+    ts.append(t)
+
+for t in ts:
+    t.join()
 ```
+
+Run this code with Python3.12, you will see Python will use 8 cores of CPU:
+
+![Python eats 8 CPU cores](https://i.v2ex.co/m80gRd7P.png)
 
 ## Limitations
 
