@@ -1,3 +1,4 @@
+import sys
 import _xxsubinterpreters
 from typing import List
 
@@ -34,7 +35,10 @@ def get_main() -> Interpreter:
 
 
 def create() -> Interpreter:
-    subinterp = _xxsubinterpreters.create()
+    if sys.version_info >= (3, 9):
+        subinterp = _xxsubinterpreters.create(isolated=1)
+    else:
+        subinterp = _xxsubinterpreters.create()
     interp = Interpreter(int(subinterp))
     interp._subinterpreter = (
         subinterp  # Add refference to ensure that they have the same lifetime.
