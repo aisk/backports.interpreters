@@ -4,7 +4,7 @@
 
 ![](https://steamuserimages-a.akamaihd.net/ugc/884253767814091683/33BD3074E50D3E841C647E8BEE4CF680C35B152D/)
 
-The `interpreters` module described in [PEP554](https://www.python.org/dev/peps/pep-0554/), which is not implemented now. This is backported from the future.
+The `concurrent.interpreters` module ([PEP 734](https://peps.python.org/pep-0734/)), backported from the future. It lands in the standard library in Python 3.14, and this package provides it for 3.8 through 3.13. On 3.14+ it just re-exports the real thing.
 
 ## Install
 
@@ -14,14 +14,14 @@ $ pip install backports.interpreters
 
 ## Example
 
-```sh
+```python
 from backports import interpreters
 import threading
 
 
 def task():
-    intp = interpreters.create()
-    intp.run("""
+    interp = interpreters.create()
+    interp.exec("""
 a = 0
 for i in range(99999999):
     a += i
@@ -39,13 +39,26 @@ for t in ts:
     t.join()
 ```
 
-Run this code with Python3.12, you will see Python will use 8 cores of CPU:
+Run this with Python 3.12+ and you will see Python use 8 cores of CPU:
 
 ![Python eats 8 CPU cores](https://i.v2ex.co/m80gRd7P.png)
 
+Interpreters talk over queues, and you can call a function in one and get its result back:
+
+```python
+from backports import interpreters
+
+def add(a, b):
+    return a + b
+
+interp = interpreters.create()
+print(interp.call(add, 2, 3))  # 5
+interp.close()
+```
+
 ## Limitations
 
-Only support python3.8+.
+Real parallelism needs the per-interpreter GIL from [PEP 684](https://peps.python.org/pep-0684/), so it only kicks in on Python 3.12+. On 3.8 through 3.11 the API works but everything shares one GIL. Before 3.14, `call()` only accepts plain functions with no closure or free variables. Before 3.13, `Queue.qsize()` and `Queue.empty()` are unavailable because the channel underneath cannot report its size.
 
 ---
 
