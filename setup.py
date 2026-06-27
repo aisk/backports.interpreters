@@ -1,14 +1,22 @@
-from setuptools import setup
+from setuptools import setup, find_namespace_packages
 
 
 setup(
     name="backports.interpreters",
-    description='Backport of Python interpreters module described in PEP554',
+    description="Backport of the concurrent.interpreters module described in PEP 734",
     author="AN Long",
     url="https://github.com/aisk/backports.interpreters",
-    version="0.2.1",
-    py_modules=["backports.interpreters"],
-    namespace_packages=["backports"],
+    version="0.3.0",
+    packages=find_namespace_packages(include=["backports.*"]),
     python_requires=">=3.8",
-    extras_require={"dev": ["pytest"]}
+    classifiers=[
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
+    ],
+    extras_require={"dev": ["pytest"]},
 )
