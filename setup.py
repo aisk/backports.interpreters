@@ -6,7 +6,7 @@ setup(
     description="Backport of the concurrent.interpreters module described in PEP 734",
     author="An Long",
     url="https://github.com/aisk/backports.interpreters",
-    version="0.3.0",
+    version="0.3.1",
     license="PSF-2.0",
     packages=find_namespace_packages(include=["backports.*"]),
     python_requires=">=3.8",
